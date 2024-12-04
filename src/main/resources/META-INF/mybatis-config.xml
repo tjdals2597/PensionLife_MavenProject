@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<typeAliases>
+		<typeAlias type="reservation.pension_dto" alias="pensiondto"/>
+		<typeAlias type="reservation.reservation_dto" alias="reservationdto"/>
+		<typeAlias type="member.member_dto" alias="memberdto"/>
+		<typeAlias type="admin.admin_dto" alias="admindto"/>
+		<typeAlias type="member.qaboard_dto" alias="qadto"/>
+	</typeAliases>
+</configuration>

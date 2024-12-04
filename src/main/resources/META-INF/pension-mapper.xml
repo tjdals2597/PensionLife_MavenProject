@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="pensiondb">
+
+	<select id="getList" resultType="pensiondto" parameterType="Map">
+		select
+		<choose>
+			<when test='part=="1"'>pname, min(rprice) as rprice, rimg</when>
+			<when test='part=="2"'>rname</when>
+			<when test='part=="3"'>ridx, rname, rcomp, rgnum, rmnum, rprice</when>
+		</choose>
+		from pension_room
+		<choose>
+			<when test='part=="1"'>group by pname, rimg</when>
+			<when test='part=="2" || part=="3"'>where pname = #{pname}</when>
+		</choose>
+	</select>
+
+</mapper>

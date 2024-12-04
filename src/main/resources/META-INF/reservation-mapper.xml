@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="reservationdb">
+
+	<select id="printReservation" resultType="reservationdto" parameterType="Map">
+		select
+		<choose>
+			<when test='part=="1" || part=="2"'>*</when>
+			<when test='part=="3"'>*</when>
+		</choose>
+		from reser_view
+		<choose>
+			<when test='part=="1"'>where member_idx = #{midx} order by reser_idx desc limit 0,1</when>
+			<when test='part=="2"'>where reser_idx = #{reser_idx} order by reser_idx</when>
+			<when test='part=="3"'>where member_idx = #{midx} order by reser_idx desc</when>
+		</choose>
+	</select>
+
+	<insert id="addReservation" parameterType="reservationdto">
+		insert into reservation (room_idx, member_idx, reser_date, reser_price, reser_gname,
+		reser_gtel, reser_gnum, reser_email, reser_sign_date) values (#{room_idx}, #{member_idx},
+		#{reser_date}, #{reser_price}, #{reser_gname}, #{reser_gtel}, #{reser_gnum}, #{reser_email}, now())
+	</insert>
+
+	<delete id="deleteReservation" parameterType="String">
+		delete from reservation where reser_idx = #{reser_idx}
+	</delete>
+
+</mapper>

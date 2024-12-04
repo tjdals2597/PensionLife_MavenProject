@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="qadb">
+
+	<select id="printQaBoard" resultType="qadto" parameterType="Map">
+		select
+		<choose>
+			<when test='part=="1" || part=="3" || part=="4"'>qidx, qwriter, qname, qtitle, qindate, answer</when>
+			<when test='part=="2"'>*</when>
+		</choose>
+		from qa_board
+		<choose>
+			<when test='part=="1"'>where qwriter = #{qwriter} order by qidx desc</when>
+			<when test='part=="2"'>where qidx = #{qidx} order by qidx desc</when>
+			<when test='part=="3"'>where answer is null order by qidx desc</when>
+			<when test='part=="4"'>where answer is not null order by qidx desc</when>
+		</choose>
+	</select>
+
+	<insert id="addQaBoard" parameterType="qadto">
+		insert into qa_board (qwriter, qcategory, qname, qphone, qemail, qtitle, qtext, qfile, qindate)
+		values (#{qwriter}, #{qcategory}, #{qname}, #{qphone}, #{qemail}, #{qtitle}, #{qtext}, #{qfile}, now())
+	</insert>
+
+	<update id="modifyQaBoard" parameterType="Map">
+		update qa_board
+		<choose>
+			<when test='part=="1"'>set answer = #{answer}, awriter = #{awriter}, aindate = now()</when>
+			<when test='part=="2"'>set qtitle = #{qtitle}, qtext = #{qtext}, qfile = #{qfile}</when>
+		</choose>
+		where qidx = #{qidx}
+	</update>
+
+	<delete id="deleteQaBoard" parameterType="qadto">
+		delete from qa_board where qidx = #{qidx}
+	</delete>
+
+</mapper>
